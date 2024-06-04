@@ -1,11 +1,11 @@
 use std::{fs, io, path::PathBuf, thread, time::Duration};
 
 static MAX_PERF_PCT: &str = "/sys/devices/system/cpu/intel_pstate/max_perf_pct";
-const OPTIMAL_CPU_PCT: f32 = 72.; // Keep MAX_PERF_PCT around this value for as long as possible
+const OPTIMAL_CPU_PCT: f32 = 72.; // Try to keep MAX_PERF_PCT close to this value when throttling
 const TEMP_THRESHOLD: f32 = 75.; // Start throttling when the temperature reaches this value
-const MAX_TEMP: f32 = 80.; // Temperature when the throttling is the highest
-const MAX_CPU: f32 = 100.; // Maximum value for MAX_PERF_PCT
-const MIN_CPU: f32 = 66.; // Minimum value for MAX_PERF_PCT (value at MAX_TEMP)
+const MAX_TEMP: f32 = 80.; // Maximum throttling at this temperature
+const MAX_CPU: f32 = 100.; // Maximum value for MAX_PERF_PCT (value below TEMP_THRESHOLD)
+const MIN_CPU: f32 = 66.; // Minimum value for MAX_PERF_PCT (value at MAX_TEMP and above)
 const THROTTLE_CPU: f32 = 75.; // Starting value for MAX_PERF_PCT (value at TEMP_THRESHOLD)
 
 fn cpu_sensor() -> io::Result<PathBuf> {
