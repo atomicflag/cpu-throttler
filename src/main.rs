@@ -8,6 +8,19 @@ const MAX_CPU: f32 = 100.; // Maximum value for MAX_PERF_PCT (value below TEMP_T
 const MIN_CPU: f32 = 66.; // Minimum value for MAX_PERF_PCT (value at MAX_TEMP and above)
 const THROTTLE_CPU: f32 = 75.; // Starting value for MAX_PERF_PCT (value at TEMP_THRESHOLD)
 
+/*
+                        TEMP_THRESHOLD
+                        |       MAX_TEMP
+                        |       |
+Temperature    <75      75      80      100
+-------------------------------------------
+Throttle       100      75      66      66
+                |       |       |
+                |       |       MIN_CPU
+                |       THROTTLE_CPU
+                MAX_CPU
+*/
+
 fn cpu_sensor() -> io::Result<PathBuf> {
     for d in fs::read_dir("/sys/class/hwmon")? {
         let d = d?.path();
