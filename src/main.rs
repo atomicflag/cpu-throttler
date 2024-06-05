@@ -46,7 +46,7 @@ fn main() -> io::Result<()> {
     loop {
         let t = read_temp(&sensor)?;
         if t >= TEMP_THRESHOLD {
-            let mut x = (t.min(MAX_TEMP) - TEMP_THRESHOLD) / 5.;
+            let mut x = (t.min(MAX_TEMP) - TEMP_THRESHOLD) / (MAX_TEMP - TEMP_THRESHOLD);
             x = (THROTTLE_CPU - MIN_CPU) * (1. - x) + MIN_CPU;
             cpu_pct = cpu_pct.min(x);
         }
